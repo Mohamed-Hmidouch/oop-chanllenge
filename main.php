@@ -129,12 +129,12 @@ class Client extends Personne
 
     private $numeroClient;
     private $reservations = [];
-public function __construct(int $numeroClient, array $reservations)
-{
-    parent::__construct();
-    $this->numeroClient = $numeroClient;
-    $this->reservations[] = $reservations;
-}
+    public function __construct(string $nom, string $prenom, string $email, int $numeroClient, array $reservations = [])
+    {
+        parent::__construct($nom, $prenom, $email);
+        $this->numeroClient = $numeroClient;
+        $this->reservations = $reservations;
+    }
     public function ajouterReservation(Reservation $r){
         $this->reservations[] = $r;
     }
@@ -234,5 +234,4 @@ $agenceOne->ajouterVehicule(new Voiture('1234', 'Renault', 'Clio 4', 50, true));
 $agenceOne->ajouterVehicule(new Moto('1111', 'Yamaha', 'MT-07', 30, true));
 $agenceOne->ajouterVehicule(new Camion('9100', 'Mercedes', 'Actros', 100, true));
 
-$clientDaHmmad = new Client(1, [],'ahmed');
-$clientL3arbi = new Client(2,);
+$clientDahmad = new Client('Mohamed','Lideark','hhhh@gmail.com', 1);
