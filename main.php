@@ -110,24 +110,37 @@ class Camion implements ReservableInterface
 
 abstract class Personne
 {
-    private $nom;
-    private $pernom;
-    private $email;
+    protected $nom;
+    protected $pernom;
+    protected $email;
 
+
+    public function __construct(string $nom, string $pernom, string $email)
+    {
+        $this->nom = $nom;
+        $this->pernom = $pernom;
+        $this->email = $email;
+    }
     abstract function afficherProfile();
 }
 
 class Client extends Personne
 {
+
     private $numeroClient;
     private $reservations = [];
-
+public function __construct(int $numeroClient, array $reservations)
+{
+    parent::__construct();
+    $this->numeroClient = $numeroClient;
+    $this->reservations[] = $reservations;
+}
     public function ajouterReservation(Reservation $r){
-
+        $this->reservations[] = $r;
     }
     public function afficherProfile()
     {
-
+        return "Nom : $this->nom, Prenom : $this->pernom, Email : $this->email, Numéro client : $this->numeroClient";
     }
 
     public function getHistorique(){
@@ -199,10 +212,13 @@ class Reservation {
       return $this->dateDebut->diff($this->dateDebut)->days * $this->nbJours;
     }
     public function confirmer(){
+        $this->statut = "confirmée";
+        $this->client->ajouterReservation($this);
       return "Reservation confirmée";
     }
 
     public function annuler(){
+        $this->statut = "annulée";
        return "reservation annuler";
     }
 
@@ -214,3 +230,9 @@ $agenceOne = new Agence('DaHmad agence','Paris',['dacia','clio 4'],['Client Hmad
 
 $agenceTwo = new Agence('Darbida agence','Casablanca',['citreoun','pikala'],['Client Brahim','Client Hmido dib']);
 
+$agenceOne->ajouterVehicule(new Voiture('1234', 'Renault', 'Clio 4', 50, true));
+$agenceOne->ajouterVehicule(new Moto('1111', 'Yamaha', 'MT-07', 30, true));
+$agenceOne->ajouterVehicule(new Camion('9100', 'Mercedes', 'Actros', 100, true));
+
+$clientDaHmmad = new Client(1, [],'ahmed');
+$clientL3arbi = new Client(2,);
